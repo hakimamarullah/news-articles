@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="id.com.sonarplatform.programmingtest1.repository.ArticleDetailMapper">
+
+   <insert id="insertDetailArticle" parameterType="id.com.sonarplatform.programmingtest1.model.ArticleDetails">
+       INSERT INTO dataxet.news_article(title,url,content,article_ts,published_date)
+       VALUES(#{title}, #{url}, #{content}, #{publicationTime}, CONVERT_TZ(#{pubDate}, '+00:00', @@session.time_zone))
+   </insert>
+
+    <update id="updateByUrl" parameterType="id.com.sonarplatform.programmingtest1.model.ArticleDetails">
+        UPDATE dataxet.news_article
+        SET title = #{title}, content = #{content}, article_ts = #{publicationTime}, published_date = #{pubDate}
+        WHERE url = #{url}
+    </update>
+
+    <select id="getByUrl" parameterType="java.lang.String" resultType="id.com.sonarplatform.programmingtest1.model.ArticleDetails">
+        SELECT id, title, url, content, article_ts as publicationTime, published_date as pubDate
+        FROM dataxet.news_article
+        WHERE url = #{url}
+        LIMIT 1
+    </select>
+
+    <select id="getById" parameterType="long" resultType="id.com.sonarplatform.programmingtest1.model.ArticleDetails">
+        SELECT id, title, url, content, article_ts as publicationTime, published_date as pubDate
+        FROM dataxet.news_article
+        WHERE id = #{id}
+        LIMIT 1
+    </select>
+
+    <select id="countByUrl" parameterType="java.lang.String" resultType="int">
+        SELECT COUNT(0)
+        FROM dataxet.news_article
+        WHERE url = #{url}
+    </select>
+
+    <select id="getAll" resultType="id.com.sonarplatform.programmingtest1.model.ArticleDetails">
+        SELECT id, title, url, content, article_ts as publicationTime, CONVERT_TZ(published_date, '+00:00', '+07:00') as pubDate
+        FROM dataxet.news_article
+        ORDER BY article_ts DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+</mapper>

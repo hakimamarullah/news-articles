@@ -9,7 +9,6 @@ Version 1.0
 
 import id.com.sonarplatform.programmingtest1.model.ArticleDetails;
 import id.com.sonarplatform.programmingtest1.service.FetchRssService;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,27 +19,21 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
 public class FetchRssServiceImpl implements FetchRssService {
+
+
     @Override
-    public void fetchRss(String sourceUrl) throws IOException {
+    public List<ArticleDetails> fetchArticleDetailsFromRss(String sourceUrl) throws IOException {
         Document doc = Jsoup.connect(sourceUrl).get();
         Elements items = doc.select("item");
-        items.parallelStream().map(FetchRssServiceImpl::mapToArticleDetails).collect(Collectors.toList()).forEach(System.out::println);
-
+        return items.parallelStream().map(FetchRssServiceImpl::mapToArticleDetails).toList();
     }
 
-    @PostConstruct
-    void startUp() {
-        try {
-            fetchRss("https://jambi.antaranews.com/rss/terkini.xml");
-        } catch (IOException e) {
-           log.error("{}", e.getMessage(), e);
-        }
-    }
 
     static ArticleDetails mapToArticleDetails(Element item) {
         ArticleDetails articleDetails = new ArticleDetails();
@@ -50,12 +43,18 @@ public class FetchRssServiceImpl implements FetchRssService {
         try {
             contents = Jsoup.connect(articleDetails.getUrl()).get();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error("[ERROR][URL: {}] {}", articleDetails.getUrl(), e.getMessage(), e);
         }
-        articleDetails.setContent(contents.selectFirst(".post-content").text());
+
+        // Get Content
+        Element content = Optional.ofNullable(contents).map(doc -> doc.selectFirst(".post-content")).orElse(null);
+        articleDetails.setContent(Optional.ofNullable(content).map(Element::text).orElse(null));
+
+        // Set publication time to timestamp
         SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
 
         try {
+            articleDetails.setPubDate(format.parse(item.select("pubDate").text()));
             articleDetails.setPublicationTime(format.parse(item.select("pubDate").text()).getTime());
         } catch (ParseException e) {
             log.error("{}", e.getMessage(), e);

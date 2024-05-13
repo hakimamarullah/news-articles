@@ -9,11 +9,15 @@ Version 1.0
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class ArticleDetails {
 
+    private long id;
     private String title;
     private String url;
     private long publicationTime;
     private String content;
+    private Date pubDate;
 }
