@@ -30,11 +30,7 @@ public class ArticleDetailsController {
     @GetMapping("/articles")
     public ResponseEntity<SimpleResponse<List<ArticleDetails>>> getAllArticles(@RequestParam(value = "page", defaultValue = "1") int page,
                                                                                @RequestParam(value = "size", defaultValue = "10") int size) {
-        SimpleResponse<List<ArticleDetails>> body = new SimpleResponse<>();
-        body.setPage(page);
-        body.setSize(size);
-        body.setData(articleDetailsService.getAll(page, size));
-        return ResponseEntity.ok(body);
+        return ResponseEntity.ok(articleDetailsService.getAll(page, size));
     }
 
     @GetMapping("/view")

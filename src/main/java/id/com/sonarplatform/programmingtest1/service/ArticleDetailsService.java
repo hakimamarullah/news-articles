@@ -8,13 +8,14 @@ Version 1.0
 */
 
 import id.com.sonarplatform.programmingtest1.model.ArticleDetails;
+import id.com.sonarplatform.programmingtest1.model.response.SimpleResponse;
 
 import java.io.IOException;
 import java.util.List;
 
 public interface ArticleDetailsService {
 
-    List<ArticleDetails> getAll(int page, int size);
+    SimpleResponse<List<ArticleDetails>> getAll(int page, int size);
 
     ArticleDetails getByUrl(String url);
 

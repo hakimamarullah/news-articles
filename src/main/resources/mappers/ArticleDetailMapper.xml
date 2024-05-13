@@ -36,6 +36,11 @@
         WHERE url = #{url}
     </select>
 
+    <select id="getTotalRecords" resultType="int">
+        SELECT COUNT(0)
+        FROM dataxet.news_article
+    </select>
+
     <select id="getAll" resultType="id.com.sonarplatform.programmingtest1.model.ArticleDetails">
         SELECT id, title, url, content, article_ts as publicationTime, CONVERT_TZ(published_date, '+00:00', '+07:00') as pubDate
         FROM dataxet.news_article

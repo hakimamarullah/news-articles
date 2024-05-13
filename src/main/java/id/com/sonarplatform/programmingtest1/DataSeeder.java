@@ -72,6 +72,11 @@ public class DataSeeder {
                 .thenRun(() -> log.info("[SEED DATA FROM INDEX DONE]"));
     }
 
+
+    /**
+     * Perform data synchronization from Rss and index berita every day at midnight
+     * @throws IOException
+     */
     @Scheduled(cron = "0 0 0 * * ?")
     @PostConstruct
     void seedData() throws IOException {

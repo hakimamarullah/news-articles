@@ -13,5 +13,6 @@ import lombok.Data;
 public class SimpleResponse<T> {
     private int page;
     private int size;
+    private int totalPage;
     private T data;
 }

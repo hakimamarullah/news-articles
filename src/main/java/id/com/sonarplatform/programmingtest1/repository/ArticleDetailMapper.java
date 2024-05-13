@@ -27,5 +27,7 @@ public interface ArticleDetailMapper {
 
     int countByUrl(String url);
 
+    int getTotalRecords();
+
 
 }

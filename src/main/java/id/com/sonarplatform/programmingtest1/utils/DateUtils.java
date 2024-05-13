@@ -16,6 +16,11 @@ public class DateUtils {
     private DateUtils() {
     }
 
+    /**
+     * Fungsi ini digunakan untuk mentransformasikan custom string (dd MM yyyy | HH:mm WIB) ke java Date.
+     * @param input input ini didapatkan ketika mengambil data dari web index (ex: 13 May 2024 | 23:00 WIB)
+     * @return Date
+     */
     public static Date getDateFromString(String input) {
        try {
            String cleaned = input.replace("WIB", "").replace("|", "").trim();
@@ -37,10 +42,15 @@ public class DateUtils {
        }
     }
 
+    /**
+     * Returns the index of the given month (0-indexed)
+     * @param shortMonthName (ex: Jan, Feb, etc)
+     * @return int
+     */
     public static int getMonthFromString(String shortMonthName) {
         String[] shortMonthsName = new DateFormatSymbols().getShortMonths();
 
-        for (int i = 0; i < shortMonthName.length(); i++) {
+        for (int i = 0; i < shortMonthsName.length; i++) {
             if (shortMonthsName[i].equalsIgnoreCase(shortMonthName)) {
                 return i;
             }

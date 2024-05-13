@@ -8,6 +8,7 @@ Version 1.0
 */
 
 import id.com.sonarplatform.programmingtest1.model.ArticleDetails;
+import id.com.sonarplatform.programmingtest1.model.response.SimpleResponse;
 import id.com.sonarplatform.programmingtest1.repository.ArticleDetailMapper;
 import id.com.sonarplatform.programmingtest1.service.ArticleDetailsService;
 import id.com.sonarplatform.programmingtest1.utils.DateUtils;
@@ -39,8 +40,18 @@ public class ArticleDetailsServiceImpl implements ArticleDetailsService {
     }
 
     @Override
-    public List<ArticleDetails> getAll(int page, int size) {
-        return articleDetailMapper.getAll(page, size);
+    public SimpleResponse<List<ArticleDetails>> getAll(int page, int size) {
+        SimpleResponse<List<ArticleDetails>> result = new SimpleResponse<>();
+        result.setPage(page);
+        result.setSize(size);
+
+
+        // Calculate total number of pages
+        int totalPages = (int) Math.ceil((double) articleDetailMapper.getTotalRecords() / size);
+        result.setTotalPage(totalPages);
+
+        result.setData(articleDetailMapper.getAll(page, size));
+        return result;
     }
 
     @Override
