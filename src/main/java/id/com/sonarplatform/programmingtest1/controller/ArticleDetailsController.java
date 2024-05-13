@@ -10,6 +10,7 @@ Version 1.0
 import id.com.sonarplatform.programmingtest1.model.ArticleDetails;
 import id.com.sonarplatform.programmingtest1.model.response.SimpleResponse;
 import id.com.sonarplatform.programmingtest1.service.ArticleDetailsService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +28,14 @@ public class ArticleDetailsController {
         this.articleDetailsService = articleDetailsService;
     }
 
+    @Operation(summary = "Get All News Articles")
     @GetMapping("/articles")
     public ResponseEntity<SimpleResponse<List<ArticleDetails>>> getAllArticles(@RequestParam(value = "page", defaultValue = "1") int page,
                                                                                @RequestParam(value = "size", defaultValue = "10") int size) {
         return ResponseEntity.ok(articleDetailsService.getAll(page, size));
     }
 
+    @Operation(summary = "View a news article by article's url")
     @GetMapping("/view")
     public ResponseEntity<SimpleResponse<ArticleDetails>> getArticleByUrl(@RequestParam(value = "url") String url) {
         SimpleResponse<ArticleDetails> body = new SimpleResponse<>();
@@ -40,6 +43,7 @@ public class ArticleDetailsController {
         return ResponseEntity.ok(body);
     }
 
+    @Operation(summary = "View a news article by article's id")
     @GetMapping("/view/{id}")
     public ResponseEntity<SimpleResponse<ArticleDetails>> getArticleById(@PathVariable(value = "id") int id) {
         SimpleResponse<ArticleDetails> body = new SimpleResponse<>();
