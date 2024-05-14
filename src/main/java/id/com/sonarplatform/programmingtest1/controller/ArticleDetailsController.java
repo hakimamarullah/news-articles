@@ -19,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/news")
+@CrossOrigin("*")
 public class ArticleDetailsController {
 
     private final ArticleDetailsService articleDetailsService;
