@@ -21,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -66,6 +68,7 @@ public class ArticleDetailsServiceImpl implements ArticleDetailsService {
 
     @Override
     public List<ArticleDetails> fetchFromIndex(String url) throws IOException {
+        Instant start = Instant.now();
         int currentPage = 0;
         String currentDate = LocalDate.now().minusDays(1).format(DateTimeFormatter.ISO_DATE);
 
@@ -84,6 +87,7 @@ public class ArticleDetailsServiceImpl implements ArticleDetailsService {
             }
             currentPage++;
         }
+        log.info("[FETCHING DATA FROM INDEX][DURATION: {} s]", Duration.between(start, Instant.now()).toSeconds());
         return data;
     }
 

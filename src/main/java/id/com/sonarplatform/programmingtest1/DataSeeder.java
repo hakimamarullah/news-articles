@@ -91,6 +91,8 @@ public class DataSeeder {
 
 
     void batchInsert(List<ArticleDetails> articleDetails) {
+        log.info("[START BATCH INSERT][SIZE: {}]", articleDetails.size());
+        Instant start = Instant.now();
         for (ArticleDetails x : articleDetails) {
             int count = articleDetailMapper.countByUrl(x.getUrl());
 
@@ -100,5 +102,7 @@ public class DataSeeder {
                 articleDetailMapper.insertDetailArticle(x);
             }
         }
+        Instant end = Instant.now();
+        log.info("[END BATCH INSERT][DURATION: {} s]", Duration.between(start, end).toSeconds());
     }
 }
