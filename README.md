@@ -39,3 +39,6 @@ This project demonstrates how to run a Spring Boot application with MySQL using 
 
 1. [non-detached] To stop the application and remove the containers, press `Ctrl + C` in the terminal where `docker-compose` is running.
 2. If you use `-d` option then simple run this command to stop all containers `docker-compose down`
+
+## Note
+Be aware that the fetching process from the Berita index takes some time before the data is inserted into the database. It can take a few minutes.
