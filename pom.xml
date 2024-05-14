@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>id.com.sonarplatform</groupId>
 	<artifactId>programmingtest1</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>programming-test-1</name>
 	<description>Programming Test 1</description>
 	<properties>
