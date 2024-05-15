@@ -11,7 +11,6 @@ import id.com.sonarplatform.programmingtest1.model.ArticleDetails;
 import id.com.sonarplatform.programmingtest1.repository.ArticleDetailMapper;
 import id.com.sonarplatform.programmingtest1.service.ArticleDetailsService;
 import id.com.sonarplatform.programmingtest1.service.FetchRssService;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +22,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
@@ -77,8 +77,7 @@ public class DataSeeder {
      * Perform data synchronization from Rss and index berita every day at midnight
      * @throws IOException
      */
-    @Scheduled(cron = "0 0 0 * * ?")
-    @PostConstruct
+    @Scheduled(fixedRate = 1, initialDelay = 0, timeUnit = TimeUnit.HOURS)
     void seedData() throws IOException {
         if (enableRss) {
             seedDataRss();

@@ -70,7 +70,7 @@ public class ArticleDetailsServiceImpl implements ArticleDetailsService {
     public List<ArticleDetails> fetchFromIndex(String url) throws IOException {
         Instant start = Instant.now();
         int currentPage = 0;
-        String currentDate = LocalDate.now().minusDays(1).format(DateTimeFormatter.ISO_DATE);
+        String currentDate = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
 
         List<ArticleDetails> data = new ArrayList<>();
         while (true) {
