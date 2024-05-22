@@ -42,6 +42,17 @@ public class DateUtils {
        }
     }
 
+    public static Date getDateFromStringV2(String input) {
+        String[] cleaned = input.split(" ");
+        Calendar calendar = Calendar.getInstance();
+        if (input.contains("hours")) {
+            calendar.add(Calendar.HOUR_OF_DAY, -Integer.parseInt(cleaned[0]));
+        } else if (input.contains("minutes")) {
+            calendar.add(Calendar.MINUTE, -Integer.parseInt(cleaned[0]));
+        }
+        return calendar.getTime();
+    }
+
     /**
      * Returns the index of the given month (0-indexed)
      * @param shortMonthName (ex: Jan, Feb, etc)

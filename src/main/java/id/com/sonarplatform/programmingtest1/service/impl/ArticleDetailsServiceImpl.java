@@ -101,8 +101,15 @@ public class ArticleDetailsServiceImpl implements ArticleDetailsService {
         try {
             // Set publish time
             Element pubDate = item.selectFirst("div.date");
-            articleDetails.setPubDate(Optional.ofNullable(pubDate).map(pd -> DateUtils.getDateFromString(pd.text())).orElse(null));
-            articleDetails.setPublicationTime(Optional.ofNullable(pubDate).map(pd -> DateUtils.getDateFromString(pd.text())).map(Date::getTime).orElse(0L));
+            String textDate = Optional.ofNullable(pubDate).map(Element::text).orElse(null);
+
+            if (textDate != null && (textDate.contains("hours") || textDate.contains("minutes"))) {
+                articleDetails.setPubDate(DateUtils.getDateFromStringV2(textDate));
+                articleDetails.setPublicationTime(DateUtils.getDateFromStringV2(textDate).getTime());
+            } else {
+                articleDetails.setPubDate(Optional.ofNullable(pubDate).map(pd -> DateUtils.getDateFromString(pd.text())).orElse(null));
+                articleDetails.setPublicationTime(Optional.ofNullable(pubDate).map(pd -> DateUtils.getDateFromString(pd.text())).map(Date::getTime).orElse(0L));
+            }
 
             // Get Content
             articleDetails.setContent(getContentFromWeb(articleDetails.getUrl()));
